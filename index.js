@@ -3,12 +3,17 @@ require("dotenv").config();
 const connectDb = require("./src/utils/database/db");
 
 const fileRouter = require("./src/api/files/file.routes");
+const commandRouter = require("./src/api/commands/command.routes");
+const libraryRouter = require("./src/api/libraries/library.routes");
+
 const server = express();
 const PORT = process.env.PORT
 
 connectDb();
 
 server.use('/files', fileRouter)
+server.use('/commands', commandRouter)
+server.use('/libraries', libraryRouter)
 
 server.use("*", (req, res) => {
     const error = new Error('ERROR 404! THE ROUTE DOESN´T EXIST');

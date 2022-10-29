@@ -11,6 +11,9 @@ const PORT = process.env.PORT
 
 connectDb();
 
+server.use(express.json())
+server.use(express.urlencoded({extended: false }))
+
 server.use('/files', fileRouter)
 server.use('/commands', commandRouter)
 server.use('/libraries', libraryRouter)

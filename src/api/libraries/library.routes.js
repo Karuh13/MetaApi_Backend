@@ -27,7 +27,6 @@ router.post("/create", async (req, res, next) => {
     const library = req.body;
 
     const newLibrary = new Library(library);
-    console.log(newLibrary);
     const created = await newLibrary.save();
     return res.status(201).json(created);
   } catch (error) {

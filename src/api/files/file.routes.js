@@ -25,9 +25,7 @@ router.get("/:id", async (req, res, next) => {
 router.post("/create", async (req, res, next) => {
   try {
     const file = req.body;
-
     const newFile = new File(file);
-    console.log(newFile);
     const created = await newFile.save();
     return res.status(201).json(created);
   } catch (error) {

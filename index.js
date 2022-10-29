@@ -15,7 +15,6 @@ server.use("*", (req, res) => {
     return res.status(404).json(error.message);
 });
   
-
 server.use((error, req, res,next) => {
     return res.status(error.status || 500).json(error.message || "Unexpected error");
 });

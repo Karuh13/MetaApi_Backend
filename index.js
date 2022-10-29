@@ -19,7 +19,7 @@ server.use('/commands', commandRouter)
 server.use('/libraries', libraryRouter)
 
 server.use("*", (req, res) => {
-    const error = new Error('ERROR 404! THE ROUTE DOESN´T EXIST');
+    const error = new Error("HOLI<3");
     return res.status(404).json(error.message);
 });
   
@@ -30,4 +30,4 @@ server.use((error, req, res,next) => {
 
 server.listen(PORT, () => {
     console.log("The server is up and running at: http://localhost:" + PORT);
-})
+});

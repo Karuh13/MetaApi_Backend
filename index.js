@@ -19,7 +19,7 @@ server.use('/commands', commandRouter)
 server.use('/libraries', libraryRouter)
 
 server.use("*", (req, res) => {
-    const error = new Error("HOLI<3");
+    const error = new Error("ERROR 404! THE ROUTE DOES NOT EXIST");
     return res.status(404).json(error.message);
 });
   

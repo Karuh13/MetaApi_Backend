@@ -42,10 +42,23 @@ router.put("/edit/:id", async (req, res, next) => {
       const fileModify = new File(file);
       fileModify._id = id;
       const fileUpdated = await File.findByIdAndUpdate(id, fileModify);
-      return res.status(200).json({message: "The file has been modified succesfully", fileModified: fileModify});  
+      return res.status(200).json({message: "The file has been modified succesfully", fileModified: fileUpdated});  
       
     } catch (error) {
       next(error);
     }
-  });
+});
+
+router.delete("/delete/:id", async (req, res, next) => {
+
+    try {
+        const id = req.params.id;
+        const fileToDelete = await File.findByIdAndDelete(id);
+        return res.status(200).json({message: "The file has been succesfully removed", deletedFile: fileToDelete});
+    } catch (error) {
+        next(error);
+    }
+
+})
+
 module.exports = router;

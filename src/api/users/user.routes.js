@@ -3,6 +3,7 @@ const User = require("./user.model");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const { generateSign } = require("../../utils/jwt/jwt");
+const { isAdmin } = require("../../middlewares/auth");
  
 
 router.get("/", async (req, res, next) => {
@@ -59,6 +60,44 @@ router.post("/logout", async (req, res, next) => {
     next(error);
     }
 
+});
+
+/* router.put("/edit/:email", [isAdmin], async (req, res, next) => {
+  try {
+    const email = req.params.email
+    const user = req.body;
+    const userModify = new User(user);
+    const oldUser = await User.find({email: email}).lean();
+    console.log(oldUser);
+    userModify._id = oldUser._id;
+    const userUpdated = await User.findByIdAndUpdate(oldUser._id, userModify);
+    return res.status(200).json({mensaje: "The user has been updated succesfully", userModified: userUpdated});
+  } catch (error) {
+    next(error)
+  }
+}); */
+
+router.put("/edit/:id", [isAdmin], async (req, res, next) => {
+  try {
+    const id = req.params.id
+    const user = req.body;
+    const userModify = new User(user);
+    userModify._id = id;
+    const userUpdated = await User.findByIdAndUpdate(id, userModify);
+    return res.status(200).json({message: "The user has been updated succesfully", userModified: userUpdated});
+  } catch (error) {
+    next(error)
+  }
+});
+
+router.delete("/delete/:id", [isAdmin], async (req, res, next) =>  {
+  try {
+    const id = req.params.id;
+    const userToDelete = await User.findByIdAndDelete(id);
+    return res.status(200).json({message: "The user has been deleted succesfully", userDeleted: userToDelete});
+  } catch (error) {
+   next(error);
+  }
 });
 
 

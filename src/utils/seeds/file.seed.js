@@ -5,25 +5,25 @@ const File = require("../../api/files/file.model")
 const files = [
     {
         name: "index.js",
-        rute: "./index.js",
+        route: "./index.js",
         description: "Main file, directs the rest of the code", 
         type: "file",
     },
     {
         name: "package.json",
-        rute: "./package.json",
+        route: "./package.json",
         description: "Gives general information about the project and its dependencies and has a programmable list of scripts i.e: 'start', 'dev', '<yourFileName>Seed'...",
         type: "file",
     },
     {
         name: "db.js",
-        rute: "./src/utils/database/db.js",
+        route: "./src/utils/database/db.js",
         description: "Uses mongoose library to make a connection to the database",
         type: "file"
     },
     {
         name: "api",
-        rute: "./src/api",
+        route: "./src/api",
         type: "folder",
         description: "Contains all the folders that contain two files each: <yourModelName>.model.js and <yourModelName>.routes.js"
     }

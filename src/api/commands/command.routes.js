@@ -3,6 +3,9 @@ const Command = require("./command.model");
 
 const router = express.Router();
 
+const { isAuth } = require('../../middlewares/auth');
+
+
 router.get("/", async (req, res, next) => {
     try{
         const allCommands = await Command.find().lean();
@@ -22,7 +25,7 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-router.post("/create", async (req, res, next) => {
+router.post("/create", [isAuth], async (req, res, next) => {
   try {
     const command = req.body;
 
@@ -34,7 +37,7 @@ router.post("/create", async (req, res, next) => {
   }
 });
 
-router.put("/edit/:id", async (req, res, next) => {
+router.put("/edit/:id", [isAuth], async (req, res, next) => {
     try {
       const id = req.params.id;
       const command = req.body;
@@ -47,7 +50,7 @@ router.put("/edit/:id", async (req, res, next) => {
     }
 });
 
-router.delete("/delete/:id", async (req, res, next) => {
+router.delete("/delete/:id", [isAuth], async (req, res, next) => {
 
     try {
         const id = req.params.id;

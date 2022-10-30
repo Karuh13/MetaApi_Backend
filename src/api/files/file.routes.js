@@ -3,6 +3,9 @@ const File = require("./file.model");
 
 const router = express.Router();
 
+const { isAuth } = require('../../middlewares/auth');
+
+
 router.get("/", async (req, res, next) => {
   try {
     const allFiles = await File.find().lean();
@@ -22,7 +25,7 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-router.post("/create", async (req, res, next) => {
+router.post("/create", [isAuth], async (req, res, next) => {
   try {
     const file = req.body;
     const newFile = new File(file);
@@ -33,7 +36,7 @@ router.post("/create", async (req, res, next) => {
   }
 });
 
-router.put("/edit/:id", async (req, res, next) => {
+router.put("/edit/:id", [isAuth], async (req, res, next) => {
     try {
       const id = req.params.id;
       const file = req.body;
@@ -47,7 +50,7 @@ router.put("/edit/:id", async (req, res, next) => {
     }
 });
 
-router.delete("/delete/:id", async (req, res, next) => {
+router.delete("/delete/:id", [isAuth], async (req, res, next) => {
 
     try {
         const id = req.params.id;

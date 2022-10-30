@@ -2,7 +2,8 @@ const express = require("express");
 const User = require("./user.model");
 const router = express.Router();
 const bcrypt = require("bcrypt");
-/* const { generateSign } = require("../../utils/jwt/jwt"); */
+const { generateSign } = require("../../utils/jwt/jwt");
+ 
 
 router.get("/", async (req, res, next) => {
   try {
@@ -29,5 +30,48 @@ router.post("/signup", async (req, res, next) => {
     next(error);
   }
 });
+
+router.post("/login", async (req, res, next) => {
+
+    try {
+        const userDB = await User.findOne({email: req.body.email});
+        if (!userDB) {
+            return res.status(404).json("User not found");
+        }
+        if (bcrypt.compareSync(req.body.password, userDB.password)){
+            const token = generateSign(userDB._id, userDB.email);
+            return res.status(200).json({token, userDB});
+        } else {
+            return res.status(200).json("Incorrect password");
+        }
+    } catch (error) {
+        next(error);
+    }
+
+});
+
+router.post("/logout", async (req, res, next) => {
+
+  try {
+      const token = null;
+      return res.status(200).json(token);
+  } catch (error) {
+    next(error);
+    }
+
+});
+
+/* No devuelve token para que podamos comprobar si funciona el logout */
+/* router.post("/test", async (req, res, next) => {
+  try {
+    console.log(req)
+    return res.json(req.headers.authorization)
+    
+    } catch (error) {
+    next(error);
+  }
+
+}); */
+
 
 module.exports = router;

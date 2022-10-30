@@ -2,6 +2,7 @@ const express = require("express");
 require("dotenv").config();
 const connectDb = require("./src/utils/database/db");
 const cloudinary = require("cloudinary").v2;
+const cors = require("cors");
 
 const fileRouter = require("./src/api/files/file.routes");
 const commandRouter = require("./src/api/commands/command.routes");
@@ -10,6 +11,11 @@ const userRouter = require("./src/api/users/user.routes");
 
 const server = express();
 const PORT = process.env.PORT
+
+server.use(cors({
+  origin: "*",
+  credentials: true
+}))
 
 connectDb();
 

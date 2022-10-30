@@ -61,17 +61,5 @@ router.post("/logout", async (req, res, next) => {
 
 });
 
-/* No devuelve token para que podamos comprobar si funciona el logout */
-/* router.post("/test", async (req, res, next) => {
-  try {
-    console.log(req)
-    return res.json(req.headers.authorization)
-    
-    } catch (error) {
-    next(error);
-  }
-
-}); */
-
 
 module.exports = router;

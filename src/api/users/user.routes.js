@@ -4,7 +4,8 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 const { generateSign } = require("../../utils/jwt/jwt");
 const { isAdmin } = require("../../middlewares/auth");
- 
+const upload = require("../../middlewares/file");
+const deleteFile = require("../../middlewares/deletefile");
 
 router.get("/", async (req, res, next) => {
   try {
@@ -15,9 +16,12 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.post("/signup", async (req, res, next) => {
+router.post("/signup", upload.single("photo"), async (req, res, next) => {
   try {
     const user = req.body;
+    if (req.file) {
+      user.photo = req.file.path;
+    }
     const newUser = new User(user);
     if (newUser.rol === "user") {
       const created = await newUser.save();
@@ -77,10 +81,17 @@ router.post("/logout", async (req, res, next) => {
   }
 }); */
 
-router.put("/edit/:id", [isAdmin], async (req, res, next) => {
+router.put("/edit/:id", [isAdmin], upload.single("photo"), async (req, res, next) => {
   try {
     const id = req.params.id
     const user = req.body;
+    const userOld = await User.findById(id);
+    if (req.file) {
+      if (userOld.photo) {
+        deleteFile(userOld.photo);
+      }
+      user.photo = req.file.path;
+    }
     const userModify = new User(user);
     userModify._id = id;
     const userUpdated = await User.findByIdAndUpdate(id, userModify);
@@ -94,6 +105,7 @@ router.delete("/delete/:id", [isAdmin], async (req, res, next) =>  {
   try {
     const id = req.params.id;
     const userToDelete = await User.findByIdAndDelete(id);
+    deleteFile(userToDelete.photo);
     return res.status(200).json({message: "The user has been deleted succesfully", userDeleted: userToDelete});
   } catch (error) {
    next(error);

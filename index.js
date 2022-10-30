@@ -1,6 +1,7 @@
 const express = require("express");
 require("dotenv").config();
 const connectDb = require("./src/utils/database/db");
+const cloudinary = require("cloudinary").v2;
 
 const fileRouter = require("./src/api/files/file.routes");
 const commandRouter = require("./src/api/commands/command.routes");
@@ -11,6 +12,12 @@ const server = express();
 const PORT = process.env.PORT
 
 connectDb();
+
+cloudinary.config({
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.API_KEY,
+    api_secret: process.env.API_SECRET
+});
 
 server.use(express.json())
 server.use(express.urlencoded({extended: false }))

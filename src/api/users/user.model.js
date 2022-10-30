@@ -7,7 +7,7 @@ const userSchema = new Schema (
     {
         email: {type: String, required:true, trim:true, unique: true},
         password:{type: String, trim: true},
-        photo: {type: String, defaul:"https://pbs.twimg.com/profile_images/1473729155506319360/TjcpeV6k_400x400.jpg", trim:true},
+        photo: {type: String, default:"https://pbs.twimg.com/profile_images/1473729155506319360/TjcpeV6k_400x400.jpg", trim:true},
         nickname: {type: String, required:true, trim:true},
         rol: {type: String, enum: ["admin", "user"], default: "user"},
         firstName: { type: String, required: true, trim: true },

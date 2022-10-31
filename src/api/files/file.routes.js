@@ -9,7 +9,7 @@ const deleteFile = require("../../middlewares/deletefile");
 
 router.get("/", async (req, res, next) => {
   try {
-    const allFiles = await File.find().lean().populate("libraries");
+    const allFiles = await File.find().lean().populate({path:"libraries", populate:{path:"commands"}});
     return res.status(200).json(allFiles);
   } catch (error) {
     next(error);
